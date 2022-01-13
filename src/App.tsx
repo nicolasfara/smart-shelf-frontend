@@ -1,5 +1,6 @@
-import {Authenticator} from '@aws-amplify/ui-react';
+import {Authenticator, Button} from '@aws-amplify/ui-react';
 import "@aws-amplify/ui-react/styles.css"
+import "./App.css"
 import Amplify from "aws-amplify";
 import awsExports from "./aws-exports";
 
@@ -12,7 +13,7 @@ export default function App() {
                 ({signOut, user}) =>
                     <main>
                         <h1>Hello {user.username}</h1>
-                        <button onClick={signOut}>Sign out</button>
+                        <Button onClick={signOut}>Sign out</Button>
                     </main>
             }
         </Authenticator>
