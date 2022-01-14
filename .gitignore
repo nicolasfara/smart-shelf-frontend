@@ -8,6 +8,9 @@
 # intellij
 .idea/
 
+# vscode
+.vscode/
+
 # testing
 /coverage
 
