@@ -20,7 +20,9 @@ rules: {
   "import/extensions": ["error", "ignorePackages", {"ts": "never", "tsx": "never"}],
   "@typescript-eslint/explicit-function-return-type": ["error", {"allowExpressions": true}],
   "max-len": ["error", { "code": 120 }],
-  "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
+  "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+  "semi": ["error", "never"],
+  "quotes": ["error", "double"]
 }
 settings: {
   "import/resolver": {
