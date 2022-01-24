@@ -1,9 +1,8 @@
 // eslint-disable-next-line react/function-component-definition
 import React from "react"
 import {
-  Checkbox, DatePicker, Form, Input, InputNumber,
+  Checkbox, Form, Input, InputNumber,
 } from "antd"
-import moment from "moment"
 import { ProductListItem } from "./ProductListItem"
 
 export interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
@@ -24,7 +23,6 @@ export default function EditableCell(props: EditableCellProps): React.ReactEleme
   let inputNode: React.ReactElement
   if (inputType === "number") inputNode = <InputNumber />
   else if (inputType === "bool") inputNode = <Checkbox defaultChecked={record.inPromo} />
-  else if (inputType === "date") inputNode = <DatePicker defaultValue={moment()} />
   else inputNode = <Input />
 
   return (
@@ -36,6 +34,7 @@ export default function EditableCell(props: EditableCellProps): React.ReactEleme
           style={{ margin: 0 }}
           rules={[
             {
+              pattern: inputType === "date" ? /^\d{4}[/-](0?[1-9]|1[012])[/-](0?[1-9]|[12][0-9]|3[01])$/ : /.*/,
               required: true,
               message: `Please Input ${title}!`,
             },

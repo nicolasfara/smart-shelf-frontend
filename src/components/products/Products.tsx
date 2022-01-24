@@ -4,7 +4,6 @@ import Amplify from "aws-amplify"
 import {
   Checkbox, Form, Popconfirm, Table, Typography,
 } from "antd"
-import moment from "moment"
 import { EditOutlined } from "@ant-design/icons"
 import { ColumnType } from "antd/lib/table"
 import awsExports from "../../aws-exports.js"
@@ -35,10 +34,10 @@ function EditableTable(): React.ReactElement {
     lot: 231255,
     name: "Kinder fette al latte",
     price: 10.50,
-    expirationDate: moment("2022-01-23").toString(),
-    purchaseDate: moment("2022-01-23").toString(),
-    createdAt: moment("2022-01-23").toString(),
-    updatedAt: moment("2022-01-23").toString(),
+    expirationDate: "2022-01-23",
+    purchaseDate: "2022-01-23",
+    createdAt: "2022-01-23",
+    updatedAt: "2022-01-23",
     promoPrice: 7.50,
     inPromo: true,
   }])
