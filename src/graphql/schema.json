@@ -139,7 +139,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "getProduct",
+          "name" : "getProducts",
           "description" : null,
           "args" : [ {
             "name" : "id",
@@ -157,7 +157,7 @@
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "Product",
+            "name" : "Products",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -179,7 +179,7 @@
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelProductFilterInput",
+              "name" : "ModelProductsFilterInput",
               "ofType" : null
             },
             "defaultValue" : null
@@ -213,7 +213,7 @@
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "ModelProductConnection",
+            "name" : "ModelProductsConnection",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -233,7 +233,7 @@
           "args" : [ ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "Product",
+            "name" : "Products",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -316,7 +316,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
-        "name" : "Product",
+        "name" : "Products",
         "description" : null,
         "fields" : [ {
           "name" : "id",
@@ -388,6 +388,32 @@
             "ofType" : {
               "kind" : "SCALAR",
               "name" : "Float",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "promoPrice",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Float",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "inPromo",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "Boolean",
               "ofType" : null
             }
           },
@@ -480,6 +506,15 @@
         "kind" : "SCALAR",
         "name" : "Float",
         "description" : "Built-in Float",
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "SCALAR",
+        "name" : "Boolean",
+        "description" : "Built-in Boolean",
         "fields" : null,
         "inputFields" : null,
         "interfaces" : null,
@@ -704,15 +739,6 @@
           },
           "defaultValue" : null
         } ],
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "SCALAR",
-        "name" : "Boolean",
-        "description" : "Built-in Boolean",
-        "fields" : null,
-        "inputFields" : null,
         "interfaces" : null,
         "enumValues" : null,
         "possibleTypes" : null
@@ -1021,7 +1047,7 @@
           "args" : [ ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "Product",
+            "name" : "Products",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -1333,7 +1359,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
-        "name" : "ModelProductConnection",
+        "name" : "ModelProductsConnection",
         "description" : null,
         "fields" : [ {
           "name" : "items",
@@ -1347,7 +1373,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "OBJECT",
-                "name" : "Product",
+                "name" : "Products",
                 "ofType" : null
               }
             }
@@ -1372,7 +1398,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "ModelProductFilterInput",
+        "name" : "ModelProductsFilterInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
@@ -1421,6 +1447,24 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "promoPrice",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelFloatInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "inPromo",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelBooleanInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "expirationDate",
           "description" : null,
           "type" : {
@@ -1446,7 +1490,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelProductFilterInput",
+              "name" : "ModelProductsFilterInput",
               "ofType" : null
             }
           },
@@ -1459,7 +1503,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelProductFilterInput",
+              "name" : "ModelProductsFilterInput",
               "ofType" : null
             }
           },
@@ -1469,7 +1513,7 @@
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
-            "name" : "ModelProductFilterInput",
+            "name" : "ModelProductsFilterInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -1547,6 +1591,51 @@
               "name" : "Float",
               "ofType" : null
             }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "attributeExists",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "attributeType",
+          "description" : null,
+          "type" : {
+            "kind" : "ENUM",
+            "name" : "ModelAttributeTypes",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "ModelBooleanInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "ne",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "eq",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
           },
           "defaultValue" : null
         }, {
@@ -1793,7 +1882,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "createProduct",
+          "name" : "createProducts",
           "description" : null,
           "args" : [ {
             "name" : "input",
@@ -1803,7 +1892,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "INPUT_OBJECT",
-                "name" : "CreateProductInput",
+                "name" : "CreateProductsInput",
                 "ofType" : null
               }
             },
@@ -1813,20 +1902,20 @@
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelProductConditionInput",
+              "name" : "ModelProductsConditionInput",
               "ofType" : null
             },
             "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "Product",
+            "name" : "Products",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "updateProduct",
+          "name" : "updateProducts",
           "description" : null,
           "args" : [ {
             "name" : "input",
@@ -1836,7 +1925,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "INPUT_OBJECT",
-                "name" : "UpdateProductInput",
+                "name" : "UpdateProductsInput",
                 "ofType" : null
               }
             },
@@ -1846,20 +1935,20 @@
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelProductConditionInput",
+              "name" : "ModelProductsConditionInput",
               "ofType" : null
             },
             "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "Product",
+            "name" : "Products",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "deleteProduct",
+          "name" : "deleteProducts",
           "description" : null,
           "args" : [ {
             "name" : "input",
@@ -1869,7 +1958,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "INPUT_OBJECT",
-                "name" : "DeleteProductInput",
+                "name" : "DeleteProductsInput",
                 "ofType" : null
               }
             },
@@ -1879,14 +1968,14 @@
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelProductConditionInput",
+              "name" : "ModelProductsConditionInput",
               "ofType" : null
             },
             "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "Product",
+            "name" : "Products",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -2261,7 +2350,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "CreateProductInput",
+        "name" : "CreateProductsInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
@@ -2326,6 +2415,28 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "promoPrice",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Float",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "inPromo",
+          "description" : null,
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "Boolean",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
           "name" : "expirationDate",
           "description" : null,
           "type" : {
@@ -2357,7 +2468,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "ModelProductConditionInput",
+        "name" : "ModelProductsConditionInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
@@ -2397,6 +2508,24 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "promoPrice",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelFloatInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "inPromo",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelBooleanInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "expirationDate",
           "description" : null,
           "type" : {
@@ -2422,7 +2551,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelProductConditionInput",
+              "name" : "ModelProductsConditionInput",
               "ofType" : null
             }
           },
@@ -2435,7 +2564,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelProductConditionInput",
+              "name" : "ModelProductsConditionInput",
               "ofType" : null
             }
           },
@@ -2445,7 +2574,7 @@
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
-            "name" : "ModelProductConditionInput",
+            "name" : "ModelProductsConditionInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -2455,7 +2584,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "UpdateProductInput",
+        "name" : "UpdateProductsInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
@@ -2508,6 +2637,24 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "promoPrice",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Float",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "inPromo",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "expirationDate",
           "description" : null,
           "type" : {
@@ -2531,7 +2678,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "DeleteProductInput",
+        "name" : "DeleteProductsInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
@@ -2622,34 +2769,34 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "onCreateProduct",
+          "name" : "onCreateProducts",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "Product",
+            "name" : "Products",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "onUpdateProduct",
+          "name" : "onUpdateProducts",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "Product",
+            "name" : "Products",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "onDeleteProduct",
+          "name" : "onDeleteProducts",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "Product",
+            "name" : "Products",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -2657,51 +2804,6 @@
         } ],
         "inputFields" : null,
         "interfaces" : [ ],
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "INPUT_OBJECT",
-        "name" : "ModelBooleanInput",
-        "description" : null,
-        "fields" : null,
-        "inputFields" : [ {
-          "name" : "ne",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Boolean",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "eq",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Boolean",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "attributeExists",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Boolean",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "attributeType",
-          "description" : null,
-          "type" : {
-            "kind" : "ENUM",
-            "name" : "ModelAttributeTypes",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        } ],
-        "interfaces" : null,
         "enumValues" : null,
         "possibleTypes" : null
       }, {
@@ -3517,6 +3619,23 @@
         "onFragment" : false,
         "onField" : false
       }, {
+        "name" : "deprecated",
+        "description" : null,
+        "locations" : [ "FIELD_DEFINITION", "ENUM_VALUE" ],
+        "args" : [ {
+          "name" : "reason",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : "\"No longer supported\""
+        } ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
         "name" : "aws_subscribe",
         "description" : "Tells the service which mutation triggers this subscription.",
         "locations" : [ "FIELD_DEFINITION" ],
@@ -3558,23 +3677,6 @@
         "description" : "Tells the service this field/object has access authorized by sigv4 signing.",
         "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
         "args" : [ ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "deprecated",
-        "description" : null,
-        "locations" : [ "FIELD_DEFINITION", "ENUM_VALUE" ],
-        "args" : [ {
-          "name" : "reason",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : "\"No longer supported\""
-        } ],
         "onOperation" : false,
         "onFragment" : false,
         "onField" : false
