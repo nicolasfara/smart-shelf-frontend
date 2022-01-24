@@ -70,7 +70,7 @@ export type ModelSizeInput = {
 
 export type ProductWarehouse = {
   __typename: "ProductWarehouse",
-  product?: Product | null,
+  product?: Products | null,
   quantity: number,
   id: string,
   createdAt: string,
@@ -78,13 +78,15 @@ export type ProductWarehouse = {
   productWarehouseProductId?: string | null,
 };
 
-export type Product = {
-  __typename: "Product",
+export type Products = {
+  __typename: "Products",
   id: string,
   code: string,
   lot: number,
   name: string,
   price: number,
+  promoPrice?: number | null,
+  inPromo: boolean,
   expirationDate: string,
   purchaseDate: string,
   createdAt: string,
@@ -137,7 +139,7 @@ export type ProductShelf = {
   __typename: "ProductShelf",
   shelfId: number,
   productID: string,
-  product?: Product | null,
+  product?: Products | null,
   quantity: number,
   id: string,
   createdAt: string,
@@ -155,26 +157,30 @@ export type DeleteProductShelfInput = {
   id: string,
 };
 
-export type CreateProductInput = {
+export type CreateProductsInput = {
   id?: string | null,
   code: string,
   lot: number,
   name: string,
   price: number,
+  promoPrice?: number | null,
+  inPromo: boolean,
   expirationDate: string,
   purchaseDate: string,
 };
 
-export type ModelProductConditionInput = {
+export type ModelProductsConditionInput = {
   code?: ModelStringInput | null,
   lot?: ModelIntInput | null,
   name?: ModelStringInput | null,
   price?: ModelFloatInput | null,
+  promoPrice?: ModelFloatInput | null,
+  inPromo?: ModelBooleanInput | null,
   expirationDate?: ModelStringInput | null,
   purchaseDate?: ModelStringInput | null,
-  and?: Array< ModelProductConditionInput | null > | null,
-  or?: Array< ModelProductConditionInput | null > | null,
-  not?: ModelProductConditionInput | null,
+  and?: Array< ModelProductsConditionInput | null > | null,
+  or?: Array< ModelProductsConditionInput | null > | null,
+  not?: ModelProductsConditionInput | null,
 };
 
 export type ModelFloatInput = {
@@ -189,17 +195,26 @@ export type ModelFloatInput = {
   attributeType?: ModelAttributeTypes | null,
 };
 
-export type UpdateProductInput = {
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type UpdateProductsInput = {
   id: string,
   code?: string | null,
   lot?: number | null,
   name?: string | null,
   price?: number | null,
+  promoPrice?: number | null,
+  inPromo?: boolean | null,
   expirationDate?: string | null,
   purchaseDate?: string | null,
 };
 
-export type DeleteProductInput = {
+export type DeleteProductsInput = {
   id: string,
 };
 
@@ -232,17 +247,19 @@ export type ModelProductShelfConnection = {
   nextToken?: string | null,
 };
 
-export type ModelProductFilterInput = {
+export type ModelProductsFilterInput = {
   id?: ModelStringInput | null,
   code?: ModelStringInput | null,
   lot?: ModelIntInput | null,
   name?: ModelStringInput | null,
   price?: ModelFloatInput | null,
+  promoPrice?: ModelFloatInput | null,
+  inPromo?: ModelBooleanInput | null,
   expirationDate?: ModelStringInput | null,
   purchaseDate?: ModelStringInput | null,
-  and?: Array< ModelProductFilterInput | null > | null,
-  or?: Array< ModelProductFilterInput | null > | null,
-  not?: ModelProductFilterInput | null,
+  and?: Array< ModelProductsFilterInput | null > | null,
+  or?: Array< ModelProductsFilterInput | null > | null,
+  not?: ModelProductsFilterInput | null,
 };
 
 export enum ModelSortDirection {
@@ -251,9 +268,9 @@ export enum ModelSortDirection {
 }
 
 
-export type ModelProductConnection = {
-  __typename: "ModelProductConnection",
-  items:  Array<Product | null >,
+export type ModelProductsConnection = {
+  __typename: "ModelProductsConnection",
+  items:  Array<Products | null >,
   nextToken?: string | null,
 };
 
@@ -266,12 +283,14 @@ export type CreateProductWarehouseMutation = {
   createProductWarehouse?:  {
     __typename: "ProductWarehouse",
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -294,12 +313,14 @@ export type UpdateProductWarehouseMutation = {
   updateProductWarehouse?:  {
     __typename: "ProductWarehouse",
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -322,12 +343,14 @@ export type DeleteProductWarehouseMutation = {
   deleteProductWarehouse?:  {
     __typename: "ProductWarehouse",
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -352,12 +375,14 @@ export type CreateProductShelfMutation = {
     shelfId: number,
     productID: string,
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -381,12 +406,14 @@ export type UpdateProductShelfMutation = {
     shelfId: number,
     productID: string,
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -410,12 +437,14 @@ export type DeleteProductShelfMutation = {
     shelfId: number,
     productID: string,
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -428,19 +457,21 @@ export type DeleteProductShelfMutation = {
   } | null,
 };
 
-export type CreateProductMutationVariables = {
-  input: CreateProductInput,
-  condition?: ModelProductConditionInput | null,
+export type CreateProductsMutationVariables = {
+  input: CreateProductsInput,
+  condition?: ModelProductsConditionInput | null,
 };
 
-export type CreateProductMutation = {
-  createProduct?:  {
-    __typename: "Product",
+export type CreateProductsMutation = {
+  createProducts?:  {
+    __typename: "Products",
     id: string,
     code: string,
     lot: number,
     name: string,
     price: number,
+    promoPrice?: number | null,
+    inPromo: boolean,
     expirationDate: string,
     purchaseDate: string,
     createdAt: string,
@@ -448,19 +479,21 @@ export type CreateProductMutation = {
   } | null,
 };
 
-export type UpdateProductMutationVariables = {
-  input: UpdateProductInput,
-  condition?: ModelProductConditionInput | null,
+export type UpdateProductsMutationVariables = {
+  input: UpdateProductsInput,
+  condition?: ModelProductsConditionInput | null,
 };
 
-export type UpdateProductMutation = {
-  updateProduct?:  {
-    __typename: "Product",
+export type UpdateProductsMutation = {
+  updateProducts?:  {
+    __typename: "Products",
     id: string,
     code: string,
     lot: number,
     name: string,
     price: number,
+    promoPrice?: number | null,
+    inPromo: boolean,
     expirationDate: string,
     purchaseDate: string,
     createdAt: string,
@@ -468,19 +501,21 @@ export type UpdateProductMutation = {
   } | null,
 };
 
-export type DeleteProductMutationVariables = {
-  input: DeleteProductInput,
-  condition?: ModelProductConditionInput | null,
+export type DeleteProductsMutationVariables = {
+  input: DeleteProductsInput,
+  condition?: ModelProductsConditionInput | null,
 };
 
-export type DeleteProductMutation = {
-  deleteProduct?:  {
-    __typename: "Product",
+export type DeleteProductsMutation = {
+  deleteProducts?:  {
+    __typename: "Products",
     id: string,
     code: string,
     lot: number,
     name: string,
     price: number,
+    promoPrice?: number | null,
+    inPromo: boolean,
     expirationDate: string,
     purchaseDate: string,
     createdAt: string,
@@ -496,12 +531,14 @@ export type GetProductWarehouseQuery = {
   getProductWarehouse?:  {
     __typename: "ProductWarehouse",
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -527,12 +564,14 @@ export type ListProductWarehousesQuery = {
     items:  Array< {
       __typename: "ProductWarehouse",
       product?:  {
-        __typename: "Product",
+        __typename: "Products",
         id: string,
         code: string,
         lot: number,
         name: string,
         price: number,
+        promoPrice?: number | null,
+        inPromo: boolean,
         expirationDate: string,
         purchaseDate: string,
         createdAt: string,
@@ -558,12 +597,14 @@ export type GetProductShelfQuery = {
     shelfId: number,
     productID: string,
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -590,12 +631,14 @@ export type ListProductShelvesQuery = {
       shelfId: number,
       productID: string,
       product?:  {
-        __typename: "Product",
+        __typename: "Products",
         id: string,
         code: string,
         lot: number,
         name: string,
         price: number,
+        promoPrice?: number | null,
+        inPromo: boolean,
         expirationDate: string,
         purchaseDate: string,
         createdAt: string,
@@ -610,18 +653,20 @@ export type ListProductShelvesQuery = {
   } | null,
 };
 
-export type GetProductQueryVariables = {
+export type GetProductsQueryVariables = {
   id: string,
 };
 
-export type GetProductQuery = {
-  getProduct?:  {
-    __typename: "Product",
+export type GetProductsQuery = {
+  getProducts?:  {
+    __typename: "Products",
     id: string,
     code: string,
     lot: number,
     name: string,
     price: number,
+    promoPrice?: number | null,
+    inPromo: boolean,
     expirationDate: string,
     purchaseDate: string,
     createdAt: string,
@@ -631,7 +676,7 @@ export type GetProductQuery = {
 
 export type ListProductsQueryVariables = {
   id?: string | null,
-  filter?: ModelProductFilterInput | null,
+  filter?: ModelProductsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
   sortDirection?: ModelSortDirection | null,
@@ -639,14 +684,16 @@ export type ListProductsQueryVariables = {
 
 export type ListProductsQuery = {
   listProducts?:  {
-    __typename: "ModelProductConnection",
+    __typename: "ModelProductsConnection",
     items:  Array< {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -660,12 +707,14 @@ export type OnCreateProductWarehouseSubscription = {
   onCreateProductWarehouse?:  {
     __typename: "ProductWarehouse",
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -683,12 +732,14 @@ export type OnUpdateProductWarehouseSubscription = {
   onUpdateProductWarehouse?:  {
     __typename: "ProductWarehouse",
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -706,12 +757,14 @@ export type OnDeleteProductWarehouseSubscription = {
   onDeleteProductWarehouse?:  {
     __typename: "ProductWarehouse",
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -731,12 +784,14 @@ export type OnCreateProductShelfSubscription = {
     shelfId: number,
     productID: string,
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -755,12 +810,14 @@ export type OnUpdateProductShelfSubscription = {
     shelfId: number,
     productID: string,
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -779,12 +836,14 @@ export type OnDeleteProductShelfSubscription = {
     shelfId: number,
     productID: string,
     product?:  {
-      __typename: "Product",
+      __typename: "Products",
       id: string,
       code: string,
       lot: number,
       name: string,
       price: number,
+      promoPrice?: number | null,
+      inPromo: boolean,
       expirationDate: string,
       purchaseDate: string,
       createdAt: string,
@@ -797,14 +856,16 @@ export type OnDeleteProductShelfSubscription = {
   } | null,
 };
 
-export type OnCreateProductSubscription = {
-  onCreateProduct?:  {
-    __typename: "Product",
+export type OnCreateProductsSubscription = {
+  onCreateProducts?:  {
+    __typename: "Products",
     id: string,
     code: string,
     lot: number,
     name: string,
     price: number,
+    promoPrice?: number | null,
+    inPromo: boolean,
     expirationDate: string,
     purchaseDate: string,
     createdAt: string,
@@ -812,14 +873,16 @@ export type OnCreateProductSubscription = {
   } | null,
 };
 
-export type OnUpdateProductSubscription = {
-  onUpdateProduct?:  {
-    __typename: "Product",
+export type OnUpdateProductsSubscription = {
+  onUpdateProducts?:  {
+    __typename: "Products",
     id: string,
     code: string,
     lot: number,
     name: string,
     price: number,
+    promoPrice?: number | null,
+    inPromo: boolean,
     expirationDate: string,
     purchaseDate: string,
     createdAt: string,
@@ -827,14 +890,16 @@ export type OnUpdateProductSubscription = {
   } | null,
 };
 
-export type OnDeleteProductSubscription = {
-  onDeleteProduct?:  {
-    __typename: "Product",
+export type OnDeleteProductsSubscription = {
+  onDeleteProducts?:  {
+    __typename: "Products",
     id: string,
     code: string,
     lot: number,
     name: string,
     price: number,
+    promoPrice?: number | null,
+    inPromo: boolean,
     expirationDate: string,
     purchaseDate: string,
     createdAt: string,

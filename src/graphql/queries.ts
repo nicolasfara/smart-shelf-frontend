@@ -11,6 +11,8 @@ export const getProductWarehouse = /* GraphQL */ `
         lot
         name
         price
+        promoPrice
+        inPromo
         expirationDate
         purchaseDate
         createdAt
@@ -42,6 +44,8 @@ export const listProductWarehouses = /* GraphQL */ `
           lot
           name
           price
+          promoPrice
+          inPromo
           expirationDate
           purchaseDate
           createdAt
@@ -68,6 +72,8 @@ export const getProductShelf = /* GraphQL */ `
         lot
         name
         price
+        promoPrice
+        inPromo
         expirationDate
         purchaseDate
         createdAt
@@ -96,6 +102,8 @@ export const listProductShelves = /* GraphQL */ `
           lot
           name
           price
+          promoPrice
+          inPromo
           expirationDate
           purchaseDate
           createdAt
@@ -110,14 +118,16 @@ export const listProductShelves = /* GraphQL */ `
     }
   }
 `;
-export const getProduct = /* GraphQL */ `
-  query GetProduct($id: String!) {
-    getProduct(id: $id) {
+export const getProducts = /* GraphQL */ `
+  query GetProducts($id: String!) {
+    getProducts(id: $id) {
       id
       code
       lot
       name
       price
+      promoPrice
+      inPromo
       expirationDate
       purchaseDate
       createdAt
@@ -128,7 +138,7 @@ export const getProduct = /* GraphQL */ `
 export const listProducts = /* GraphQL */ `
   query ListProducts(
     $id: String
-    $filter: ModelProductFilterInput
+    $filter: ModelProductsFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
@@ -146,6 +156,8 @@ export const listProducts = /* GraphQL */ `
         lot
         name
         price
+        promoPrice
+        inPromo
         expirationDate
         purchaseDate
         createdAt
