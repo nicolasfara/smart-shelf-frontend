@@ -12,13 +12,25 @@ import awsExports from "../../aws-exports.js"
 import "./ProductList.css"
 import "antd/dist/antd.css"
 import EditableCell from "./EditableCell"
-import { listProducts } from "../../graphql/queries"
-import * as APIType from "../../API"
-import { Products } from "../../API"
-import { updateProducts } from "../../graphql/mutations"
+import { listProductWarehouses } from "../../graphql/queries"
 import InsertProduct from "./InsertProduct"
+import { ListProductWarehousesQuery, ProductWarehouse } from "../../API"
+import { updateProduct } from "../../graphql/mutations"
 
 Amplify.configure(awsExports)
+
+export type ProductTable = {
+  code: string
+  lot: number
+  name: string
+  price: number
+  promoPrice?: number | null
+  inPromo?: boolean | null
+  expirationDate: string
+  purchaseDate: string
+  id: string
+  quantity: number
+}
 
 interface ColumnProperty {
   title: string
@@ -27,22 +39,23 @@ interface ColumnProperty {
   editable: boolean
   element?: string
   // eslint-disable-next-line no-unused-vars
-  render?: (text: string, record: Products, index: number) => React.ReactNode
+  render?: (text: string, record: ProductTable, index: number) => React.ReactNode
 }
 
 export default function ProductsTable(): React.ReactElement {
   const [form] = Form.useForm()
-  const [products, setProducts] = useState<Array<Products>>([])
+  const [products, setProducts] = useState<Array<ProductTable>>([])
   const [editingKey, setEditingKey] = useState("")
 
   useEffect(() => {
     const fetchProducts = async (): Promise<void> => {
       try {
         const productQueryResult = (
-          await API.graphql(graphqlOperation(listProducts))
-        ) as GraphQLResult<APIType.ListProductsQuery>
-        const productsList = productQueryResult?.data?.listProducts?.items as APIType.Products[] ?? []
-        setProducts(productsList)
+          await API.graphql(graphqlOperation(listProductWarehouses))
+        ) as GraphQLResult<ListProductWarehousesQuery>
+        const warehouseProductsList = productQueryResult?.data?.listProductWarehouses?.items as ProductWarehouse[]
+        const warehouseProducts = warehouseProductsList.map((e) => ({ ...e.product, quantity: e.quantity }))
+        setProducts(warehouseProducts)
         console.log(products)
       } catch (e) {
         console.error(e)
@@ -52,9 +65,9 @@ export default function ProductsTable(): React.ReactElement {
   }, [])
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const isEditing = (record: Products): boolean => record.id === editingKey
+  const isEditing = (record: ProductTable): boolean => record.id === editingKey
 
-  const edit = (record: Partial<Products> & { id: React.Key }): void => {
+  const edit = (record: Partial<ProductTable> & { id: React.Key }): void => {
     form.setFieldsValue(record)
     setEditingKey(record.id)
   }
@@ -64,19 +77,18 @@ export default function ProductsTable(): React.ReactElement {
   }
 
   const save = async (key: React.Key): Promise<void> => {
-    const row = (await form.validateFields()) as Products
-    row.id = key as string
-    const updateProductResult = (
-      await API.graphql(graphqlOperation(updateProducts, { input: { ...row } }))
-    ) as GraphQLResult<Products>
-
-    if (updateProductResult.errors) {
-      console.error(updateProductResult.errors)
+    const row = (await form.validateFields()) as ProductTable
+    const { quantity, ...newProduct } = row
+    try {
+      await API.graphql(graphqlOperation(updateProduct, { input: newProduct }))
+      // TODO(Add update for quantity in ProductWarehouse)
+      const updateProductsList = products
+        .map((product) => (product.id === key ? newProduct : product))
+        .map((product) => ({ quantity, ...product }))
+      setProducts(updateProductsList)
+    } catch (e) {
+      console.error(e)
     }
-
-    const newProducts = products.map((product) => (product.id === key ? row : product))
-    setProducts(newProducts)
-
     setEditingKey("")
   }
 
@@ -138,16 +150,24 @@ export default function ProductsTable(): React.ReactElement {
       element: "date",
     },
     {
+      title: "Quantity",
+      dataIndex: "quantity",
+      width: "15%",
+      editable: false,
+      element: "number",
+    },
+    {
       title: "Edit",
       dataIndex: "operation",
       editable: false,
       width: "5%",
       // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-      render: (text, record: Products, index) => {
+      render: (text, record: ProductTable, index) => {
         const editable = isEditing(record)
         return editable ? (
           <span>
-            <Typography.Link onClick={() => save(record.id)} style={{ marginRight: 8 }}>
+            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+            <Typography.Link onClick={() => save(record.id!)} style={{ marginRight: 8 }}>
               Save
             </Typography.Link>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
@@ -162,13 +182,13 @@ export default function ProductsTable(): React.ReactElement {
     },
   ]
 
-  const mergedColumns: ColumnType<Products>[] = columns.map((col) => {
+  const mergedColumns: ColumnType<ProductTable>[] = columns.map((col) => {
     if (!col.editable) {
       return col
     }
     return {
       ...col,
-      onCell: (record: Products) => ({
+      onCell: (record: ProductTable) => ({
         editing: isEditing(record),
         dataIndex: col.dataIndex,
         title: col.title,

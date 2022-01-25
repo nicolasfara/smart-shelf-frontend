@@ -5,13 +5,14 @@ import {
 import { API, graphqlOperation } from "aws-amplify"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { GraphQLResult } from "@aws-amplify/api"
-import { Products } from "../../API"
-import { createProducts } from "../../graphql/mutations"
+import { createProduct, createProductWarehouse } from "../../graphql/mutations"
+import { ProductTable } from "./ProductList"
+import { CreateProductMutation, CreateProductWarehouseInput } from "../../API"
 
 interface InsertProductPropsForm {
   visible: boolean
   // eslint-disable-next-line no-unused-vars
-  onCreate: (values: Products) => void
+  onCreate: (values: ProductTable) => void
   onCancel: () => void
 }
 
@@ -26,9 +27,13 @@ function InsertProductForm(props: InsertProductPropsForm): React.ReactElement {
       cancelText="Cancel"
       onCancel={onCancel}
       onOk={async () => {
-        const newProduct = await form.validateFields()
-        form.resetFields()
-        onCreate(newProduct)
+        try {
+          const newProduct = await form.validateFields()
+          onCreate(newProduct)
+          form.resetFields()
+        } catch (e) {
+          console.error(e)
+        }
       }}
     >
       <Form
@@ -55,6 +60,9 @@ function InsertProductForm(props: InsertProductPropsForm): React.ReactElement {
         <Form.Item name="inPromo" label="In promo" rules={[{ required: true }]} valuePropName="checked">
           <Checkbox defaultChecked={false} />
         </Form.Item>
+        <Form.Item name="quantity" label="Quantity" rules={[{ required: true, message: "Please input the field " }]}>
+          <InputNumber />
+        </Form.Item>
         <Form.Item
           name="expirationDate"
           label="Expiration Date"
@@ -76,29 +84,36 @@ function InsertProductForm(props: InsertProductPropsForm): React.ReactElement {
 }
 
 interface InsertProductProps {
-  products: Products[]
-  setProducts: Dispatch<SetStateAction<Products[]>>
+  products: ProductTable[]
+  setProducts: Dispatch<SetStateAction<ProductTable[]>>
 }
 
 export default function InsertProduct(props: InsertProductProps): React.ReactElement {
   const { products, setProducts } = props
   const [visible, setVisible] = useState(false)
 
-  const onCreate = async (values: Products): Promise<void> => {
-    const newProduct = values
-    newProduct.id = `${values.code}${values.lot}`
-    console.log(newProduct)
+  const onCreate = async (values: ProductTable): Promise<void> => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { quantity, ...newProduct } = values
     try {
       const insertResult = (
-        await API.graphql(graphqlOperation(createProducts, { input: newProduct }))
-      ) as GraphQLResult<Products>
-      console.log(insertResult)
+        await API.graphql(graphqlOperation(createProduct, { input: newProduct }))
+      ) as GraphQLResult<CreateProductMutation>
+
+      if (insertResult.data?.createProduct) {
+        console.log(insertResult.data)
+        const warehouseProduct: CreateProductWarehouseInput = {
+          productWarehouseProductId: insertResult.data?.createProduct.id,
+          quantity,
+        }
+        console.log(warehouseProduct)
+        await API.graphql(graphqlOperation(createProductWarehouse, { input: warehouseProduct }))
+        const newProductsList = products.concat(values)
+        setProducts(newProductsList)
+      }
     } catch (e) {
       console.error(e)
     }
-
-    const newProductsList = products.concat(newProduct)
-    setProducts(newProductsList)
     setVisible(false)
   }
 
