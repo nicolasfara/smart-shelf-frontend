@@ -1,6 +1,6 @@
 import React from "react"
 import { shallow } from "enzyme"
-import Products from "./Products"
+import Products from "./ProductList"
 
 describe("The products component", () => {
   it("get all products from api", async () => {

@@ -1,4 +1,3 @@
-// eslint-disable-next-line react/function-component-definition
 import React from "react"
 import { Checkbox } from "antd"
 import { Products } from "../../API"
