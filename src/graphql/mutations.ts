@@ -9,7 +9,6 @@ export const createProductWarehouse = /* GraphQL */ `
   ) {
     createProductWarehouse(input: $input, condition: $condition) {
       product {
-        id
         code
         lot
         name
@@ -18,6 +17,7 @@ export const createProductWarehouse = /* GraphQL */ `
         inPromo
         expirationDate
         purchaseDate
+        id
         createdAt
         updatedAt
       }
@@ -36,7 +36,6 @@ export const updateProductWarehouse = /* GraphQL */ `
   ) {
     updateProductWarehouse(input: $input, condition: $condition) {
       product {
-        id
         code
         lot
         name
@@ -45,6 +44,7 @@ export const updateProductWarehouse = /* GraphQL */ `
         inPromo
         expirationDate
         purchaseDate
+        id
         createdAt
         updatedAt
       }
@@ -63,7 +63,6 @@ export const deleteProductWarehouse = /* GraphQL */ `
   ) {
     deleteProductWarehouse(input: $input, condition: $condition) {
       product {
-        id
         code
         lot
         name
@@ -72,6 +71,7 @@ export const deleteProductWarehouse = /* GraphQL */ `
         inPromo
         expirationDate
         purchaseDate
+        id
         createdAt
         updatedAt
       }
@@ -90,9 +90,7 @@ export const createProductShelf = /* GraphQL */ `
   ) {
     createProductShelf(input: $input, condition: $condition) {
       shelfId
-      productID
       product {
-        id
         code
         lot
         name
@@ -101,6 +99,7 @@ export const createProductShelf = /* GraphQL */ `
         inPromo
         expirationDate
         purchaseDate
+        id
         createdAt
         updatedAt
       }
@@ -108,6 +107,7 @@ export const createProductShelf = /* GraphQL */ `
       id
       createdAt
       updatedAt
+      productShelfProductId
     }
   }
 `;
@@ -118,9 +118,7 @@ export const updateProductShelf = /* GraphQL */ `
   ) {
     updateProductShelf(input: $input, condition: $condition) {
       shelfId
-      productID
       product {
-        id
         code
         lot
         name
@@ -129,6 +127,7 @@ export const updateProductShelf = /* GraphQL */ `
         inPromo
         expirationDate
         purchaseDate
+        id
         createdAt
         updatedAt
       }
@@ -136,6 +135,7 @@ export const updateProductShelf = /* GraphQL */ `
       id
       createdAt
       updatedAt
+      productShelfProductId
     }
   }
 `;
@@ -146,9 +146,7 @@ export const deleteProductShelf = /* GraphQL */ `
   ) {
     deleteProductShelf(input: $input, condition: $condition) {
       shelfId
-      productID
       product {
-        id
         code
         lot
         name
@@ -157,6 +155,7 @@ export const deleteProductShelf = /* GraphQL */ `
         inPromo
         expirationDate
         purchaseDate
+        id
         createdAt
         updatedAt
       }
@@ -164,16 +163,16 @@ export const deleteProductShelf = /* GraphQL */ `
       id
       createdAt
       updatedAt
+      productShelfProductId
     }
   }
 `;
-export const createProducts = /* GraphQL */ `
-  mutation CreateProducts(
-    $input: CreateProductsInput!
-    $condition: ModelProductsConditionInput
+export const createProduct = /* GraphQL */ `
+  mutation CreateProduct(
+    $input: CreateProductInput!
+    $condition: ModelProductConditionInput
   ) {
-    createProducts(input: $input, condition: $condition) {
-      id
+    createProduct(input: $input, condition: $condition) {
       code
       lot
       name
@@ -182,18 +181,18 @@ export const createProducts = /* GraphQL */ `
       inPromo
       expirationDate
       purchaseDate
+      id
       createdAt
       updatedAt
     }
   }
 `;
-export const updateProducts = /* GraphQL */ `
-  mutation UpdateProducts(
-    $input: UpdateProductsInput!
-    $condition: ModelProductsConditionInput
+export const updateProduct = /* GraphQL */ `
+  mutation UpdateProduct(
+    $input: UpdateProductInput!
+    $condition: ModelProductConditionInput
   ) {
-    updateProducts(input: $input, condition: $condition) {
-      id
+    updateProduct(input: $input, condition: $condition) {
       code
       lot
       name
@@ -202,18 +201,18 @@ export const updateProducts = /* GraphQL */ `
       inPromo
       expirationDate
       purchaseDate
+      id
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteProducts = /* GraphQL */ `
-  mutation DeleteProducts(
-    $input: DeleteProductsInput!
-    $condition: ModelProductsConditionInput
+export const deleteProduct = /* GraphQL */ `
+  mutation DeleteProduct(
+    $input: DeleteProductInput!
+    $condition: ModelProductConditionInput
   ) {
-    deleteProducts(input: $input, condition: $condition) {
-      id
+    deleteProduct(input: $input, condition: $condition) {
       code
       lot
       name
@@ -222,6 +221,7 @@ export const deleteProducts = /* GraphQL */ `
       inPromo
       expirationDate
       purchaseDate
+      id
       createdAt
       updatedAt
     }

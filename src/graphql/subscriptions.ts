@@ -6,7 +6,6 @@ export const onCreateProductWarehouse = /* GraphQL */ `
   subscription OnCreateProductWarehouse {
     onCreateProductWarehouse {
       product {
-        id
         code
         lot
         name
@@ -15,6 +14,7 @@ export const onCreateProductWarehouse = /* GraphQL */ `
         inPromo
         expirationDate
         purchaseDate
+        id
         createdAt
         updatedAt
       }
@@ -30,7 +30,6 @@ export const onUpdateProductWarehouse = /* GraphQL */ `
   subscription OnUpdateProductWarehouse {
     onUpdateProductWarehouse {
       product {
-        id
         code
         lot
         name
@@ -39,6 +38,7 @@ export const onUpdateProductWarehouse = /* GraphQL */ `
         inPromo
         expirationDate
         purchaseDate
+        id
         createdAt
         updatedAt
       }
@@ -54,7 +54,6 @@ export const onDeleteProductWarehouse = /* GraphQL */ `
   subscription OnDeleteProductWarehouse {
     onDeleteProductWarehouse {
       product {
-        id
         code
         lot
         name
@@ -63,6 +62,7 @@ export const onDeleteProductWarehouse = /* GraphQL */ `
         inPromo
         expirationDate
         purchaseDate
+        id
         createdAt
         updatedAt
       }
@@ -78,9 +78,7 @@ export const onCreateProductShelf = /* GraphQL */ `
   subscription OnCreateProductShelf {
     onCreateProductShelf {
       shelfId
-      productID
       product {
-        id
         code
         lot
         name
@@ -89,6 +87,7 @@ export const onCreateProductShelf = /* GraphQL */ `
         inPromo
         expirationDate
         purchaseDate
+        id
         createdAt
         updatedAt
       }
@@ -96,6 +95,7 @@ export const onCreateProductShelf = /* GraphQL */ `
       id
       createdAt
       updatedAt
+      productShelfProductId
     }
   }
 `;
@@ -103,9 +103,7 @@ export const onUpdateProductShelf = /* GraphQL */ `
   subscription OnUpdateProductShelf {
     onUpdateProductShelf {
       shelfId
-      productID
       product {
-        id
         code
         lot
         name
@@ -114,6 +112,7 @@ export const onUpdateProductShelf = /* GraphQL */ `
         inPromo
         expirationDate
         purchaseDate
+        id
         createdAt
         updatedAt
       }
@@ -121,6 +120,7 @@ export const onUpdateProductShelf = /* GraphQL */ `
       id
       createdAt
       updatedAt
+      productShelfProductId
     }
   }
 `;
@@ -128,9 +128,7 @@ export const onDeleteProductShelf = /* GraphQL */ `
   subscription OnDeleteProductShelf {
     onDeleteProductShelf {
       shelfId
-      productID
       product {
-        id
         code
         lot
         name
@@ -139,6 +137,7 @@ export const onDeleteProductShelf = /* GraphQL */ `
         inPromo
         expirationDate
         purchaseDate
+        id
         createdAt
         updatedAt
       }
@@ -146,13 +145,13 @@ export const onDeleteProductShelf = /* GraphQL */ `
       id
       createdAt
       updatedAt
+      productShelfProductId
     }
   }
 `;
-export const onCreateProducts = /* GraphQL */ `
-  subscription OnCreateProducts {
-    onCreateProducts {
-      id
+export const onCreateProduct = /* GraphQL */ `
+  subscription OnCreateProduct {
+    onCreateProduct {
       code
       lot
       name
@@ -161,15 +160,15 @@ export const onCreateProducts = /* GraphQL */ `
       inPromo
       expirationDate
       purchaseDate
+      id
       createdAt
       updatedAt
     }
   }
 `;
-export const onUpdateProducts = /* GraphQL */ `
-  subscription OnUpdateProducts {
-    onUpdateProducts {
-      id
+export const onUpdateProduct = /* GraphQL */ `
+  subscription OnUpdateProduct {
+    onUpdateProduct {
       code
       lot
       name
@@ -178,15 +177,15 @@ export const onUpdateProducts = /* GraphQL */ `
       inPromo
       expirationDate
       purchaseDate
+      id
       createdAt
       updatedAt
     }
   }
 `;
-export const onDeleteProducts = /* GraphQL */ `
-  subscription OnDeleteProducts {
-    onDeleteProducts {
-      id
+export const onDeleteProduct = /* GraphQL */ `
+  subscription OnDeleteProduct {
+    onDeleteProduct {
       code
       lot
       name
@@ -195,6 +194,7 @@ export const onDeleteProducts = /* GraphQL */ `
       inPromo
       expirationDate
       purchaseDate
+      id
       createdAt
       updatedAt
     }
