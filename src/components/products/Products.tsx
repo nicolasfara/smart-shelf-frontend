@@ -1,16 +1,21 @@
-import React, { useState } from "react"
-import Amplify from "aws-amplify"
+import React, { useEffect, useState } from "react"
+import Amplify, { API, graphqlOperation } from "aws-amplify"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
-  Checkbox, Form, Popconfirm, Table, Typography,
+  Form, Popconfirm, Table, Typography,
 } from "antd"
 import { EditOutlined } from "@ant-design/icons"
 import { ColumnType } from "antd/lib/table"
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { GraphQLResult } from "@aws-amplify/api"
 import awsExports from "../../aws-exports.js"
 import "./Products.css"
 import "antd/dist/antd.css"
 import EditableCell from "./EditableCell"
-import { ProductListItem } from "./ProductListItem"
+import { listProducts } from "../../graphql/queries"
+import * as APIType from "../../API"
+import { Products } from "../../API"
+import { updateProducts } from "../../graphql/mutations"
 
 Amplify.configure(awsExports)
 
@@ -21,34 +26,36 @@ interface ColumnProperty {
   editable: boolean
   element?: string
   // eslint-disable-next-line no-unused-vars
-  render?: (text: string, record: ProductListItem, index: number) => React.ReactNode
+  render?: (text: string, record: Products, index: number) => React.ReactNode
 }
 
-function EditableTable(): React.ReactElement {
+export default function ProductsTable(): React.ReactElement {
   const [form] = Form.useForm()
-  const [data, setData] = useState<Array<ProductListItem>>([{
-    __typename: "Products",
-    key: "123456789",
-    id: "123456789",
-    code: "BR1244567",
-    lot: 231255,
-    name: "Kinder fette al latte",
-    price: 10.50,
-    expirationDate: "2022-01-23",
-    purchaseDate: "2022-01-23",
-    createdAt: "2022-01-23",
-    updatedAt: "2022-01-23",
-    promoPrice: 7.50,
-    inPromo: true,
-  }])
+  const [products, setProducts] = useState<Array<Products>>([])
   const [editingKey, setEditingKey] = useState("")
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const isEditing = (record: ProductListItem): boolean => record.key === editingKey
+  useEffect(() => {
+    const fetchProducts = async (): Promise<void> => {
+      try {
+        const productQueryResult = (
+          await API.graphql(graphqlOperation(listProducts))
+        ) as GraphQLResult<APIType.ListProductsQuery>
+        const productsList = productQueryResult?.data?.listProducts?.items as APIType.Products[] ?? []
+        setProducts(productsList)
+        console.log(products)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    fetchProducts().then(() => console.log("Fetch completed"))
+  }, [])
 
-  const edit = (record: Partial<ProductListItem> & { key: React.Key }): void => {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const isEditing = (record: Products): boolean => record.id === editingKey
+
+  const edit = (record: Partial<Products> & { id: React.Key }): void => {
     form.setFieldsValue(record)
-    setEditingKey(record.key)
+    setEditingKey(record.id)
   }
 
   const cancel = (): void => {
@@ -56,27 +63,20 @@ function EditableTable(): React.ReactElement {
   }
 
   const save = async (key: React.Key): Promise<void> => {
-    try {
-      const row = (await form.validateFields()) as ProductListItem
+    const row = (await form.validateFields()) as Products
+    row.id = key as string
+    const updateProductResult = (
+      await API.graphql(graphqlOperation(updateProducts, { input: { ...row } }))
+    ) as GraphQLResult<Products>
 
-      const newData = [...data]
-      const index = newData.findIndex((item) => key === item.key)
-      if (index > -1) {
-        const item = newData[index]
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        })
-        setData(newData)
-        setEditingKey("")
-      } else {
-        newData.push(row)
-        setData(newData)
-        setEditingKey("")
-      }
-    } catch (errInfo) {
-      console.log("Validate Failed:", errInfo)
+    if (updateProductResult.errors) {
+      console.error(updateProductResult.errors)
     }
+
+    const newProducts = products.map((product) => (product.id === key ? row : product))
+    setProducts(newProducts)
+
+    setEditingKey("")
   }
 
   const columns: ColumnProperty[] = [
@@ -121,8 +121,6 @@ function EditableTable(): React.ReactElement {
       width: "5%",
       editable: true,
       element: "bool",
-      // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-      render: (text, record: ProductListItem, index) => <Checkbox disabled checked={record.inPromo} />,
     },
     {
       title: "Expiration Date",
@@ -144,7 +142,7 @@ function EditableTable(): React.ReactElement {
       editable: false,
       width: "5%",
       // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-      render: (text, record: ProductListItem, index) => {
+      render: (text, record: Products, index) => {
         const editable = isEditing(record)
         return editable ? (
           <span>
@@ -163,13 +161,13 @@ function EditableTable(): React.ReactElement {
     },
   ]
 
-  const mergedColumns: ColumnType<ProductListItem>[] = columns.map((col) => {
+  const mergedColumns: ColumnType<Products>[] = columns.map((col) => {
     if (!col.editable) {
       return col
     }
     return {
       ...col,
-      onCell: (record: ProductListItem) => ({
+      onCell: (record: Products) => ({
         editing: isEditing(record),
         dataIndex: col.dataIndex,
         title: col.title,
@@ -181,46 +179,23 @@ function EditableTable(): React.ReactElement {
   })
 
   return (
-    <Form form={form} component={false}>
-      <Table
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={data}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
-      />
-    </Form>
+    <div>
+      <Form form={form} component={false}>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          bordered
+          dataSource={products}
+          columns={mergedColumns}
+          rowClassName="editable-row"
+          pagination={{
+            onChange: cancel,
+          }}
+        />
+      </Form>
+    </div>
   )
-}
-
-export default function Products(): React.ReactElement {
-  // const [products, setProducts] = useState<Array<APIType.Products>>([])
-
-  /**
-   * Effect for fetching all the products.
-   */
-  // useEffect(() => {
-  //   const fetchProducts = async (): Promise<void> => {
-  //     try {
-  //       const productQueryResult = (
-  //         await API.graphql(graphqlOperation(listProducts))
-  //       ) as GraphQLResult<APIType.ListProductsQuery>
-  //       const productsList = productQueryResult?.data?.listProducts?.items as APIType.Products[] ?? []
-  //       setProducts(productsList)
-  //       console.log(products)
-  //     } catch (e) {
-  //       console.error(e)
-  //     }
-  //   }
-  //   fetchProducts().then(() => console.log("Fetch completed"))
-  // }, [])
-
-  return (<EditableTable />)
 }
