@@ -79,6 +79,8 @@ export default function ProductsTable(): React.ReactElement {
   const save = async (key: React.Key): Promise<void> => {
     const row = (await form.validateFields()) as ProductTable
     const { quantity, ...newProduct } = row
+    newProduct.id = key as string
+
     try {
       await API.graphql(graphqlOperation(updateProduct, { input: newProduct }))
       // TODO(Add update for quantity in ProductWarehouse)

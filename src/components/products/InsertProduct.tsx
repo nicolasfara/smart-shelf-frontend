@@ -101,12 +101,10 @@ export default function InsertProduct(props: InsertProductProps): React.ReactEle
       ) as GraphQLResult<CreateProductMutation>
 
       if (insertResult.data?.createProduct) {
-        console.log(insertResult.data)
         const warehouseProduct: CreateProductWarehouseInput = {
           productWarehouseProductId: insertResult.data?.createProduct.id,
           quantity,
         }
-        console.log(warehouseProduct)
         await API.graphql(graphqlOperation(createProductWarehouse, { input: warehouseProduct }))
         const newProductsList = products.concat(values)
         setProducts(newProductsList)
