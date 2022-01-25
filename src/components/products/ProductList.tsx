@@ -9,13 +9,14 @@ import { ColumnType } from "antd/lib/table"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { GraphQLResult } from "@aws-amplify/api"
 import awsExports from "../../aws-exports.js"
-import "./Products.css"
+import "./ProductList.css"
 import "antd/dist/antd.css"
 import EditableCell from "./EditableCell"
 import { listProducts } from "../../graphql/queries"
 import * as APIType from "../../API"
 import { Products } from "../../API"
 import { updateProducts } from "../../graphql/mutations"
+import InsertProduct from "./InsertProduct"
 
 Amplify.configure(awsExports)
 
@@ -180,6 +181,7 @@ export default function ProductsTable(): React.ReactElement {
 
   return (
     <div>
+      <InsertProduct products={products} setProducts={setProducts} />
       <Form form={form} component={false}>
         <Table
           components={{
