@@ -13,7 +13,7 @@ export default function NumberEditableItem(props: TextEditableItemProp): React.R
       name={dataIndex}
       style={{ margin: 0 }}
       rules={[{
-        required: true,
+        required: dataIndex !== "promoPrice",
         message: `Please input ${title}`,
       }]}
     >
