@@ -1,27 +1,19 @@
 import React from "react"
-import { Authenticator, Button } from "@aws-amplify/ui-react"
 // eslint-disable-next-line import/no-unresolved
 import "@aws-amplify/ui-react/styles.css"
 import "./App.css"
 import Amplify from "aws-amplify"
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Route, Routes } from "react-router-dom"
 import awsExports from "./aws-exports.js"
+import Dashboard from "./pages/Dashboard"
 
 Amplify.configure(awsExports)
 
 export default function App(): React.ReactElement {
   return (
-    <Authenticator>
-      {
-        ({ signOut, user }) => (
-          <main>
-            <h1>
-              Hello
-              {user.username}
-            </h1>
-            <Button id="signinBtn" onClick={signOut}>Sign out</Button>
-          </main>
-        )
-      }
-    </Authenticator>
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+    </Routes>
   )
 }
