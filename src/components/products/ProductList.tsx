@@ -8,6 +8,7 @@ import { EditOutlined } from "@ant-design/icons"
 import { ColumnType } from "antd/lib/table"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { GraphQLResult } from "@aws-amplify/api"
+import log from "loglevel"
 import awsExports from "../../aws-exports.js"
 import "./ProductList.css"
 import "antd/dist/antd.css"
@@ -43,6 +44,7 @@ interface ColumnProperty {
 }
 
 export default function ProductsTable(): React.ReactElement {
+  const logger = log.getLogger("ProductsTable")
   const [form] = Form.useForm()
   const [products, setProducts] = useState<Array<ProductTable>>([])
   const [editingKey, setEditingKey] = useState("")
@@ -56,12 +58,12 @@ export default function ProductsTable(): React.ReactElement {
         const warehouseProductsList = productQueryResult?.data?.listProductWarehouses?.items as ProductWarehouse[]
         const warehouseProducts = warehouseProductsList.map((e) => ({ ...e.product, quantity: e.quantity }))
         setProducts(warehouseProducts)
-        console.log(products)
+        logger.debug(products)
       } catch (e) {
-        console.error(e)
+        logger.error(e)
       }
     }
-    fetchProducts().then(() => console.log("Fetch completed"))
+    fetchProducts().then(() => logger.debug("Fetch completed"))
   }, [])
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -89,7 +91,7 @@ export default function ProductsTable(): React.ReactElement {
         .map((product) => ({ quantity, ...product }))
       setProducts(updateProductsList)
     } catch (e) {
-      console.error(e)
+      logger.error(e)
     }
     setEditingKey("")
   }
@@ -163,8 +165,7 @@ export default function ProductsTable(): React.ReactElement {
       dataIndex: "operation",
       editable: false,
       width: "5%",
-      // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-      render: (text, record: ProductTable, index) => {
+      render: (text, record: ProductTable) => {
         const editable = isEditing(record)
         return editable ? (
           <span>
