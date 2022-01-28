@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { act } from "react-dom/test-utils"
 import { waitFor } from "@testing-library/react"
+import { BrowserRouter } from "react-router-dom"
 import App from "./App"
 
 let container: ReactDOM.Container | null
@@ -20,12 +21,12 @@ afterEach(() => {
 
 test("renders learn react link", async () => {
   act(() => {
-    ReactDOM.render(<App />, container)
+    ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, container)
   })
   await waitFor(() => {
     const button = container?.querySelector("button")
     if (button !== null && button !== undefined) {
-      expect(button.textContent).toBe("Sign iyn")
+      expect(button.textContent).toBe("Sign in")
     }
   })
 })
