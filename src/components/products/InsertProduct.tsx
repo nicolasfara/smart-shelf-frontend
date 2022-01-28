@@ -5,6 +5,7 @@ import {
 import { API, graphqlOperation } from "aws-amplify"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { GraphQLResult } from "@aws-amplify/api"
+import log from "loglevel"
 import { createProduct, createProductWarehouse } from "../../graphql/mutations"
 import { ProductTable } from "./ProductList"
 import { CreateProductMutation, CreateProductWarehouseInput } from "../../API"
@@ -17,6 +18,7 @@ interface InsertProductPropsForm {
 }
 
 function InsertProductForm(props: InsertProductPropsForm): React.ReactElement {
+  const logger = log.getLogger("InsertProductForm")
   const { visible, onCancel, onCreate } = props
   const [form] = Form.useForm()
   return (
@@ -32,7 +34,7 @@ function InsertProductForm(props: InsertProductPropsForm): React.ReactElement {
           onCreate(newProduct)
           form.resetFields()
         } catch (e) {
-          console.error(e)
+          logger.error(e)
         }
       }}
     >
@@ -89,6 +91,7 @@ interface InsertProductProps {
 }
 
 export default function InsertProduct(props: InsertProductProps): React.ReactElement {
+  const logger = log.getLogger("InsertProduct")
   const { products, setProducts } = props
   const [visible, setVisible] = useState(false)
 
@@ -110,7 +113,7 @@ export default function InsertProduct(props: InsertProductProps): React.ReactEle
         setProducts(newProductsList)
       }
     } catch (e) {
-      console.error(e)
+      logger.error(e)
     }
     setVisible(false)
   }
