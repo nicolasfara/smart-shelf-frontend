@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import { Layout, Menu } from "antd"
-import { DesktopOutlined, FileOutlined, PieChartOutlined } from "@ant-design/icons"
+import {
+  AppstoreOutlined, BarsOutlined, BellOutlined, DashboardOutlined,
+} from "@ant-design/icons"
 import "./BaseLayout.css"
 import { Footer } from "antd/lib/layout/layout"
 import { Link } from "react-router-dom"
@@ -22,16 +24,16 @@ export default function BaseLayout(props: BaseLayoutProps): React.ReactElement {
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-          <Menu.Item key="1" icon={<FileOutlined />}>
+          <Menu.Item key="1" icon={<DashboardOutlined />}>
             <Link to="/">Dashboard</Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<PieChartOutlined />}>
+          <Menu.Item key="2" icon={<AppstoreOutlined />}>
             <Link to="/warehouse">Warehouse</Link>
           </Menu.Item>
-          <Menu.Item key="3" icon={<DesktopOutlined />}>
+          <Menu.Item key="3" icon={<BarsOutlined />}>
             Products
           </Menu.Item>
-          <Menu.Item key="4" icon={<DesktopOutlined />}>
+          <Menu.Item key="4" icon={<BellOutlined />}>
             Notifications
           </Menu.Item>
         </Menu>
