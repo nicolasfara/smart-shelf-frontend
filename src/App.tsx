@@ -7,6 +7,7 @@ import Amplify from "aws-amplify"
 import { Route, Routes } from "react-router-dom"
 import awsExports from "./aws-exports.js"
 import Dashboard from "./pages/Dashboard"
+import Warehouse from "./pages/Warehouse"
 
 Amplify.configure(awsExports)
 
@@ -14,6 +15,7 @@ export default function App(): React.ReactElement {
   return (
     <Routes>
       <Route path="/" element={<Dashboard />} />
+      <Route path="/warehouse" element={<Warehouse />} />
     </Routes>
   )
 }
