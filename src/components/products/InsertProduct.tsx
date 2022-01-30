@@ -21,6 +21,17 @@ function InsertProductForm(props: InsertProductPropsForm): React.ReactElement {
   const logger = log.getLogger("InsertProductForm")
   const { visible, onCancel, onCreate } = props
   const [form] = Form.useForm()
+
+  const onOk = async (): Promise<void> => {
+    try {
+      const newProduct = await form.validateFields()
+      onCreate(newProduct)
+      form.resetFields()
+    } catch (e) {
+      logger.error(e)
+    }
+  }
+
   return (
     <Modal
       visible={visible}
@@ -28,15 +39,7 @@ function InsertProductForm(props: InsertProductPropsForm): React.ReactElement {
       okText="Insert"
       cancelText="Cancel"
       onCancel={onCancel}
-      onOk={async () => {
-        try {
-          const newProduct = await form.validateFields()
-          onCreate(newProduct)
-          form.resetFields()
-        } catch (e) {
-          logger.error(e)
-        }
-      }}
+      onOk={onOk}
     >
       <Form
         form={form}
