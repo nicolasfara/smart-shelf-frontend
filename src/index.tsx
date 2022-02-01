@@ -2,8 +2,11 @@ import React from "react"
 import ReactDOM from "react-dom"
 import "./index.css"
 import { BrowserRouter } from "react-router-dom"
+import * as log from "loglevel"
 import App from "./App"
 import reportWebVitals from "./reportWebVitals"
+
+log.setDefaultLevel("DEBUG")
 
 ReactDOM.render(
   <React.StrictMode>
