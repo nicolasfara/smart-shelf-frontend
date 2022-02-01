@@ -218,6 +218,141 @@ export type DeleteProductInput = {
   id: string,
 };
 
+export type SearchableProductShelfFilterInput = {
+  shelfId?: SearchableIntFilterInput | null,
+  quantity?: SearchableIntFilterInput | null,
+  id?: SearchableIDFilterInput | null,
+  createdAt?: SearchableStringFilterInput | null,
+  updatedAt?: SearchableStringFilterInput | null,
+  productShelfProductId?: SearchableIDFilterInput | null,
+  and?: Array< SearchableProductShelfFilterInput | null > | null,
+  or?: Array< SearchableProductShelfFilterInput | null > | null,
+  not?: SearchableProductShelfFilterInput | null,
+};
+
+export type SearchableIntFilterInput = {
+  ne?: number | null,
+  gt?: number | null,
+  lt?: number | null,
+  gte?: number | null,
+  lte?: number | null,
+  eq?: number | null,
+  range?: Array< number | null > | null,
+};
+
+export type SearchableIDFilterInput = {
+  ne?: string | null,
+  gt?: string | null,
+  lt?: string | null,
+  gte?: string | null,
+  lte?: string | null,
+  eq?: string | null,
+  match?: string | null,
+  matchPhrase?: string | null,
+  matchPhrasePrefix?: string | null,
+  multiMatch?: string | null,
+  exists?: boolean | null,
+  wildcard?: string | null,
+  regexp?: string | null,
+  range?: Array< string | null > | null,
+};
+
+export type SearchableStringFilterInput = {
+  ne?: string | null,
+  gt?: string | null,
+  lt?: string | null,
+  gte?: string | null,
+  lte?: string | null,
+  eq?: string | null,
+  match?: string | null,
+  matchPhrase?: string | null,
+  matchPhrasePrefix?: string | null,
+  multiMatch?: string | null,
+  exists?: boolean | null,
+  wildcard?: string | null,
+  regexp?: string | null,
+  range?: Array< string | null > | null,
+};
+
+export type SearchableProductShelfSortInput = {
+  field?: SearchableProductShelfSortableFields | null,
+  direction?: SearchableSortDirection | null,
+};
+
+export enum SearchableProductShelfSortableFields {
+  shelfId = "shelfId",
+  quantity = "quantity",
+  id = "id",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+  productShelfProductId = "productShelfProductId",
+}
+
+
+export enum SearchableSortDirection {
+  asc = "asc",
+  desc = "desc",
+}
+
+
+export type SearchableProductShelfAggregationInput = {
+  name: string,
+  type: SearchableAggregateType,
+  field: SearchableProductShelfAggregateField,
+};
+
+export enum SearchableAggregateType {
+  terms = "terms",
+  avg = "avg",
+  min = "min",
+  max = "max",
+  sum = "sum",
+}
+
+
+export enum SearchableProductShelfAggregateField {
+  shelfId = "shelfId",
+  quantity = "quantity",
+  id = "id",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+  productShelfProductId = "productShelfProductId",
+}
+
+
+export type SearchableProductShelfConnection = {
+  __typename: "SearchableProductShelfConnection",
+  items:  Array<ProductShelf | null >,
+  nextToken?: string | null,
+  total?: number | null,
+  aggregateItems:  Array<SearchableAggregateResult | null >,
+};
+
+export type SearchableAggregateResult = {
+  __typename: "SearchableAggregateResult",
+  name: string,
+  result?: SearchableAggregateGenericResult | null,
+};
+
+export type SearchableAggregateGenericResult = SearchableAggregateScalarResult | SearchableAggregateBucketResult
+
+
+export type SearchableAggregateScalarResult = {
+  __typename: "SearchableAggregateScalarResult",
+  value: number,
+};
+
+export type SearchableAggregateBucketResult = {
+  __typename: "SearchableAggregateBucketResult",
+  buckets?:  Array<SearchableAggregateBucketResultItem | null > | null,
+};
+
+export type SearchableAggregateBucketResultItem = {
+  __typename: "SearchableAggregateBucketResultItem",
+  key: string,
+  doc_count: number,
+};
+
 export type ModelProductWarehouseFilterInput = {
   quantity?: ModelIntInput | null,
   and?: Array< ModelProductWarehouseFilterInput | null > | null,
@@ -513,6 +648,62 @@ export type DeleteProductMutation = {
     id: string,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type SearchProductShelvesQueryVariables = {
+  filter?: SearchableProductShelfFilterInput | null,
+  sort?: Array< SearchableProductShelfSortInput | null > | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  from?: number | null,
+  aggregates?: Array< SearchableProductShelfAggregationInput | null > | null,
+};
+
+export type SearchProductShelvesQuery = {
+  searchProductShelves?:  {
+    __typename: "SearchableProductShelfConnection",
+    items:  Array< {
+      __typename: "ProductShelf",
+      shelfId: number,
+      product:  {
+        __typename: "Product",
+        code: string,
+        lot: number,
+        name: string,
+        price: number,
+        promoPrice?: number | null,
+        inPromo?: boolean | null,
+        expirationDate: string,
+        purchaseDate: string,
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      quantity: number,
+      id: string,
+      createdAt: string,
+      updatedAt: string,
+      productShelfProductId: string,
+    } | null >,
+    nextToken?: string | null,
+    total?: number | null,
+    aggregateItems:  Array< {
+      __typename: "SearchableAggregateResult",
+      name: string,
+      result: ( {
+          __typename: "SearchableAggregateScalarResult",
+          value: number,
+        } | {
+          __typename: "SearchableAggregateBucketResult",
+          buckets?:  Array< {
+            __typename: string,
+            key: string,
+            doc_count: number,
+          } | null > | null,
+        }
+      ) | null,
+    } | null >,
   } | null,
 };
 
