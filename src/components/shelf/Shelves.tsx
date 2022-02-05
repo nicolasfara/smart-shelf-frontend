@@ -5,8 +5,13 @@ import log from "loglevel"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { GraphQLResult } from "@aws-amplify/api"
 import Title from "antd/es/typography/Title"
-import { ListProductShelvesQuery, Product } from "../../API"
-import { listProductShelves } from "../../graphql/queries"
+import {
+  Product,
+  SearchableProductShelfSortableFields,
+  SearchableSortDirection,
+  SearchProductShelvesQuery,
+} from "../../API"
+import { searchProductShelves } from "../../graphql/queries"
 import ShelfCard from "./ShelfCard"
 
 export default function Shelves(): React.ReactElement {
@@ -16,11 +21,22 @@ export default function Shelves(): React.ReactElement {
     const query = async (): Promise<void> => {
       try {
         const queryResult = (
-          await API.graphql(graphqlOperation(listProductShelves))
-        ) as GraphQLResult<ListProductShelvesQuery>
-        if (queryResult.data?.listProductShelves?.items) {
+          await API.graphql(graphqlOperation(
+            searchProductShelves,
+            {
+              sort: [
+                {
+                  direction: SearchableSortDirection.asc,
+                  field: SearchableProductShelfSortableFields.shelfId,
+                },
+              ],
+            },
+          ))
+        ) as GraphQLResult<SearchProductShelvesQuery>
+        log.debug(queryResult)
+        if (queryResult.data?.searchProductShelves?.items) {
           const shelvesProductsMap = new Map<number, Product[]>()
-          queryResult.data.listProductShelves.items.forEach((prod) => {
+          queryResult.data.searchProductShelves.items.forEach((prod) => {
             if (prod !== null) {
               const collection = shelvesProductsMap.get(prod.shelfId)
               if (!collection) {
@@ -40,7 +56,7 @@ export default function Shelves(): React.ReactElement {
   }, [])
 
   const style = {
-    width: "50%",
+    width: "100%",
   }
 
   const elems: React.ReactElement[] = []
