@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   Card, Form, Table, Tag,
 } from "antd"
@@ -8,16 +8,34 @@ import { ColumnType } from "antd/lib/table"
 import { Product } from "../../API"
 import { EditElementType, ShelfEditableElement } from "./ShelfEditableElement"
 import { CloseEdit, EditMenu } from "../../utils/Utils"
+import { getProductsByShelfId, updateProductShelfInfo } from "../../utils/repositories/ProductRepository"
 
 interface ShelfCardProps {
   shelfId: number
-  shelfProducts: Product[]
+  update: boolean
+  setUpdate: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+interface FormValidation {
+  id: string
+  inPromo: boolean
+  promoPrice?: number
+  price: number
 }
 
 export default function ShelfCard(props: ShelfCardProps): React.ReactElement {
-  const { shelfId, shelfProducts } = props
+  const { shelfId, update, setUpdate } = props
+  const [products, setProducts] = useState<Product[]>([])
   const [editingKey, setEditingKey] = useState("")
   const [form] = Form.useForm()
+
+  useEffect(() => {
+    const productsInShelf = async (): Promise<void> => {
+      setProducts(await getProductsByShelfId(shelfId))
+    }
+    productsInShelf().then()
+    log.debug(`Update product in shelf ${shelfId}`)
+  }, [update])
 
   const isEditing = (record: Product): boolean => record.id === editingKey
 
@@ -32,7 +50,16 @@ export default function ShelfCard(props: ShelfCardProps): React.ReactElement {
   }
 
   const save = async (key: React.Key): Promise<void> => {
-    log.debug("Editing key", key)
+    const row = (await form.validateFields()) as FormValidation
+    row.id = key as string
+    const updatedProduct = await updateProductShelfInfo(row)
+    if (updatedProduct) {
+      log.debug("Save successfully")
+      const updatedProductList = products.map((p) => (p.id === key ? updatedProduct : p))
+      setProducts(updatedProductList)
+      setEditingKey("")
+      setUpdate(!update)
+    } else log.warn("Fail to update product")
   }
 
   const columns: ColumnType<Product>[] = [
@@ -107,7 +134,7 @@ export default function ShelfCard(props: ShelfCardProps): React.ReactElement {
             },
           }}
           columns={columns}
-          dataSource={shelfProducts}
+          dataSource={products}
           rowClassName="editable-row"
         />
       </Form>
