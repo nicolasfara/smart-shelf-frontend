@@ -2,63 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const searchProductShelves = /* GraphQL */ `
-  query SearchProductShelves(
-    $filter: SearchableProductShelfFilterInput
-    $sort: [SearchableProductShelfSortInput]
-    $limit: Int
-    $nextToken: String
-    $from: Int
-    $aggregates: [SearchableProductShelfAggregationInput]
-  ) {
-    searchProductShelves(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-      from: $from
-      aggregates: $aggregates
-    ) {
-      items {
-        shelfId
-        product {
-          code
-          lot
-          name
-          price
-          promoPrice
-          inPromo
-          expirationDate
-          purchaseDate
-          id
-          createdAt
-          updatedAt
-        }
-        quantity
-        id
-        createdAt
-        updatedAt
-        productShelfProductId
-      }
-      nextToken
-      total
-      aggregateItems {
-        name
-        result {
-          ... on SearchableAggregateScalarResult {
-            value
-          }
-          ... on SearchableAggregateBucketResult {
-            buckets {
-              key
-              doc_count
-            }
-          }
-        }
-      }
-    }
-  }
-`;
 export const getProductWarehouse = /* GraphQL */ `
   query GetProductWarehouse($id: ID!) {
     getProductWarehouse(id: $id) {
