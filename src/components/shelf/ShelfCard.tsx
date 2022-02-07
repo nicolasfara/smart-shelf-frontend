@@ -5,6 +5,7 @@ import {
 import Title from "antd/es/typography/Title"
 import log from "loglevel"
 import { ColumnType } from "antd/lib/table"
+import { PubSub } from "aws-amplify"
 import { Product } from "../../API"
 import { EditElementType, ShelfEditableElement } from "./ShelfEditableElement"
 import { CloseEdit, EditMenu } from "../../utils/Utils"
@@ -59,6 +60,7 @@ export default function ShelfCard(props: ShelfCardProps): React.ReactElement {
       setProducts(updatedProductList)
       setEditingKey("")
       setUpdate(!update)
+      PubSub.publish("products/update", updatedProduct).catch((e) => log.error(e))
     } else log.warn("Fail to update product")
   }
 
