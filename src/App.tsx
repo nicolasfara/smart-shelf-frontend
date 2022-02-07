@@ -10,6 +10,7 @@ import { AWSIoTProvider } from "@aws-amplify/pubsub"
 import awsExports from "./aws-exports.js"
 import Dashboard from "./pages/Dashboard"
 import Warehouse from "./pages/Warehouse"
+import Notifications from "./pages/Notifications"
 
 Amplify.configure(awsExports)
 Amplify.addPluggable(new AWSIoTProvider({
@@ -22,6 +23,7 @@ export default function App(): React.ReactElement {
     <Routes>
       <Route path="/" element={<Dashboard />} />
       <Route path="/warehouse" element={<Warehouse />} />
+      <Route path="/notifications" element={<Notifications />} />
     </Routes>
   )
 }
