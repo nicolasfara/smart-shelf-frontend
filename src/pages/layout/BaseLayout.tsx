@@ -34,7 +34,7 @@ export default function BaseLayout(props: BaseLayoutProps): React.ReactElement {
             Products
           </Menu.Item>
           <Menu.Item key="4" icon={<BellOutlined />}>
-            Notifications
+            <Link to="/notifications">Notifications</Link>
           </Menu.Item>
         </Menu>
       </Sider>
