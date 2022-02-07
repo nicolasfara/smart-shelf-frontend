@@ -157,7 +157,7 @@ export default function ProductsTable(): React.ReactElement {
       title: "Quantity",
       dataIndex: "quantity",
       width: "15%",
-      editable: false,
+      editable: true,
       element: "number",
     },
     {
