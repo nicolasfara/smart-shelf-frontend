@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react"
 import { Card } from "antd"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Title from "antd/es/typography/Title"
+import { PubSub } from "aws-amplify"
+import log from "loglevel"
 import { getAllShelfId } from "../../utils/repositories/ProductRepository"
 import ShelfCard from "./ShelfCard"
 
@@ -15,6 +17,22 @@ export default function Shelves(): React.ReactElement {
     }
     query().then()
   })
+
+  useEffect(() => {
+    log.debug("Setup subscribe")
+    const sub = PubSub.subscribe(["products/insert", "products/remove"]).subscribe({
+      next: (value) => {
+        log.debug(value)
+        log.debug("Change value before: ", update)
+        setUpdate((p) => !p)
+      },
+      error: (error) => log.error(error),
+    })
+
+    return () => {
+      sub.unsubscribe()
+    }
+  }, [])
 
   const style = {
     width: "100%",

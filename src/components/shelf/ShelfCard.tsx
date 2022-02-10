@@ -6,6 +6,7 @@ import Title from "antd/es/typography/Title"
 import log from "loglevel"
 import { ColumnType } from "antd/lib/table"
 import { PubSub } from "aws-amplify"
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Product } from "../../API"
 import { EditElementType, ShelfEditableElement } from "./ShelfEditableElement"
 import { CloseEdit, EditMenu } from "../../utils/Utils"

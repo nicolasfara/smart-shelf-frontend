@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import Amplify, { API, graphqlOperation } from "aws-amplify"
+import Amplify, { API, graphqlOperation, PubSub } from "aws-amplify"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
   Form, Popconfirm, Table, Typography,
@@ -90,6 +90,7 @@ export default function ProductsTable(): React.ReactElement {
         .map((product) => (product.id === key ? newProduct : product))
         .map((product) => ({ quantity, ...product }))
       setProducts(updateProductsList)
+      await PubSub.publish("products/update", { quantity, ...newProduct })
     } catch (e) {
       logger.error(e)
     }
