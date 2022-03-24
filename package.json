@@ -41,7 +41,7 @@
     "eslint-plugin-react-hooks": "4.3.0",
     "husky": "7.0.4",
     "jest": "27.5.1",
-    "typescript": "4.5.4"
+    "typescript": "4.6.3"
   },
   "resolutions": {
     "mini-css-extract-plugin": "2.5.3"
